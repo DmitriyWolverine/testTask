@@ -119,7 +119,6 @@ public class ThreadPoolManagerTest extends Assert {
     public void testArray2Distribution(){
         initMap(array2);
         for( Integer integer : arrayMap.keySet()){
-
             Assert.assertTrue( isCorrectDistribution(integer , arrayMap.get(integer) ) );
         }
         arrayMap.clear();

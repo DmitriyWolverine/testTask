@@ -11,7 +11,7 @@ public class FirstModule extends AbstractModule {
 
     public void run() {
         try {
-            Long duration = 1l;
+            long duration = 1L;
             printTaskIdAndNumber();
             TimeUnit.SECONDS.sleep(duration);
         } catch (InterruptedException e) {
@@ -26,7 +26,12 @@ public class FirstModule extends AbstractModule {
         return number*calculateFactorial(--number);
     }
 
-    private void printCalculatingResult(long number){
+    @Override
+    protected double doTheJob() {
+        return (double)calculateFactorial((long)Math.random()*60);
+    }
+
+    protected void printCalculatingResult(long number){
         System.out.println(number+"! = "+calculateFactorial(number));
     }
 }

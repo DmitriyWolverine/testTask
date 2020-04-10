@@ -12,7 +12,7 @@ public class SecondModule extends AbstractModule {
     @Override
     public void run() {
         try {
-            Long duration = 1l;
+            long duration = 1L;
             printTaskIdAndNumber();
             TimeUnit.SECONDS.sleep(duration);
         } catch (InterruptedException e) {
@@ -20,7 +20,7 @@ public class SecondModule extends AbstractModule {
         }
     }
 
-    private double doTheJob(){
+    protected double doTheJob(){
         return  Math.random() * 10_000;
     }
 }

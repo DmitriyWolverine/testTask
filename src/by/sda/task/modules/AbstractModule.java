@@ -23,4 +23,6 @@ public abstract class AbstractModule implements Runnable{
     }
 
     public abstract void run();
+
+    protected abstract double doTheJob();
 }

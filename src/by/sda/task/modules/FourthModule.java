@@ -11,7 +11,7 @@ public class FourthModule extends AbstractModule {
     @Override
     public void run() {
         try {
-            Long duration = 1l;
+            long duration = 1L;
             printTaskIdAndNumber();
             TimeUnit.SECONDS.sleep(duration);
         } catch (InterruptedException e) {
@@ -19,7 +19,7 @@ public class FourthModule extends AbstractModule {
         }
     }
 
-    private double doTheJob (){
+    protected double doTheJob(){
        return Math.acos(Math.random()*100);
     }
 }
