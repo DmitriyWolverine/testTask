@@ -3,12 +3,9 @@ package by.sda.task.service;
 import by.sda.task.modules.*;
 import by.sda.task.util.ThreadPoolManager;
 
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 /**
  * Основной класс-обработчки поступающих задач
@@ -20,10 +17,8 @@ public class TaskHandler extends ThreadPoolExecutor {
     private ThreadPoolExecutor tpe3;
     private ThreadPoolExecutor tpe4;
 
-
     private ReentrantLock reentrantLock = new ReentrantLock();
     private int[] numberOfTaskValue = new int[4];
-    private AtomicInteger[] integers = new AtomicInteger[4] ;
 
     public TaskHandler(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
@@ -45,9 +40,6 @@ public class TaskHandler extends ThreadPoolExecutor {
                 numberOfTaskValue[3] = Math.max(0, total - numberOfTaskValue[2] - numberOfTaskValue[1] - numberOfTaskValue[0]);
                 int[] distributedArray = ThreadPoolManager.divideResponsibilities(numberOfTaskValue, total, getPoolSize());
                 innerInitializer(distributedArray);
-                for(int i = 0 ; i < distributedArray.length ; ++i){
-                    integers[i] = new AtomicInteger(distributedArray[i]);
-                }
                 ThreadPoolManager.printPoolsSize(distributedArray);
                 ThreadPoolManager.clearData();
             }
@@ -59,13 +51,6 @@ public class TaskHandler extends ThreadPoolExecutor {
 
     private void innerInitializer(int[] poolSizes){
         if(poolSizes[0] > 0)
-            /*tpe1 = new ThreadPoolExecutor(poolSizes[0],poolSizes[0],60L, TimeUnit.SECONDS, getQueue()){
-                @Override
-                public void execute(Runnable command) {
-                    System.out.println("hello from tpe1");
-                    super.execute(command);
-                }
-            };*/
             tpe1 = (ThreadPoolExecutor) Executors.newFixedThreadPool(poolSizes[0]);
         if(poolSizes[1] > 0)
             tpe2 = (ThreadPoolExecutor) Executors.newFixedThreadPool(poolSizes[1]);
@@ -109,10 +94,6 @@ public class TaskHandler extends ThreadPoolExecutor {
        catch (NoSuchElementException ex){
            System.err.println(moduleId +" is not stored yet");
        }
-    }
-
-    private void customExecutor(ThreadPoolExecutor tpe, Runnable command){
-        tpe.execute(command);
     }
 
     @Override
